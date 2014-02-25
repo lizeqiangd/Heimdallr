@@ -6,6 +6,12 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var mem = require('./routes/mem');
+var numofcore = require('./routes/numberofcores');
+var loadavg = require('./routes/loadavg');
+var osinfo = require('./routes/osinfo');
+var ip = require('./routes/ip');
+var df = require('./routes/df');
 var http = require('http');
 var path = require('path');
 
@@ -30,6 +36,12 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/mem', mem.main);
+app.get('/numofcore', numofcore.main);
+app.get('/loadavg', loadavg.main);
+app.get('/osinfo', osinfo.main);
+app.get('/ip', ip.main);
+app.get('/df', df.main);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

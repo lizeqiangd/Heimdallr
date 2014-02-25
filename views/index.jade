@@ -1,30 +1,14 @@
-doctype html
-html(lang='en')
-  head
-    title linux-dash &colon; Server Monitoring Web Dashboard
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
-    meta(name='description', content='Monitor your Linux server through a simple web dashboard. Open source and free!')
-    meta(name='apple-mobile-web-app-capable', content='yes')
-    link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
-    link(rel='icon', href='favicon.ico', type='image/x-icon')
-    link(href='css/bootstrap.min.css', rel='stylesheet', type='text/css')
-    link(href='css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
-    link(href='css/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
-    link(href='css/style.css', rel='stylesheet', type='text/css')
-    link(href='css/pages/dashboard.css', rel='stylesheet', type='text/css')
-    link(href='css/odometer.css', rel='stylesheet', type='text/css')
-    // Le HTML5 shim, for IE6-8 support of HTML5 elements
-    //if lt IE 9
-      script(src='https://html5shim.googlecode.com/svn/trunk/html5.js')
-  body
+extends layout
+
+block content
     .navbar.navbar-fixed-top(style='')
       .navbar-inner
         .container
-          a.brand(href='./') linux-dash
+          a.brand(href='./') #{title}
           .nav-collapse
           ul.nav.pull-right
             li
-              a(target='_blank', href='http://github.com/afaqurk/linux-dash')
+              a(target='_blank', href='http://github.com/xinyangli/Heimdallr')
                 i.lead.icon-github-sign
                 span.lead Contribute on GitHub
     .subnavbar.visible-desktop.visible-tablet
@@ -72,41 +56,6 @@ html(lang='en')
                     | Open All Widgets
                 li
                   hr
-            li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown')
-                i#phpinfo-widget-what.icon-info-sign
-                span
-                  | PHPInfo
-                  i.icon-caret-down
-              ul#phpinfo-widget-opt.dropdown-menu
-                li
-                  a(href='sh/phpinfo.php?what=-1', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;ALL
-                li
-                  a(href='sh/phpinfo.php?what=1', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;GENERAL
-                li
-                  a(href='sh/phpinfo.php?what=4', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;CONFIGURATION
-                li
-                  a(href='sh/phpinfo.php?what=8', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;MODULES
-                li
-                  a(href='sh/phpinfo.php?what=16', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;ENVIRONMENT
-                li
-                  a(href='sh/phpinfo.php?what=32', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;VARIABLES
-                li
-                  a(href='sh/phpinfo.php?what=2', target='_blank')
-                    i.icon-info
-                    | - INFO&UnderBar;CREDITS
         // /container
       // /subnavbar-inner
     // /subnavbar
@@ -131,16 +80,16 @@ html(lang='en')
                     br
                     div(style='text-align:center;')
                       b OS&colon;
-                      span#os-info
+                      span#os-info #{OS}
                       br
                       b Uptime&colon;
-                      span#os-uptime
+                      span#os-uptime #{uptime}
                       br
                       b Server Time&colon;
                       span#os-time
                       br
                       b Hostname&colon;
-                      span#os-hostname
+                      span#os-hostname #{hostname}
                       br
                       br
                       br
@@ -157,28 +106,28 @@ html(lang='en')
                   .widget-content
                     div(style='text-align:center;')
                       b Number of cores&colon;
-                      span#core-number.lead 0
+                      span#core-number.lead #{corenum}
                     .cf.big_stats
                       .stat
                         i.icon-# 1 min&NonBreakingSpace;
                         span#cpu-1min-per.value.odometer
                         | &percnt;
                         br
-                        span#cpu-1min.value
+                        span#cpu-1min.value #{loadavg1}
                       // .stat
                       .stat
                         i.icon-# 5 min&NonBreakingSpace;
                         span#cpu-5min-per.value.odometer
                         | &percnt;
                         br
-                        span#cpu-5min.value
+                        span#cpu-5min.value #{loadavg5}
                       // .stat
                       .stat
                         i.icon-# 15 min&NonBreakingSpace;
                         span#cpu-15min-per.value.odometer
                         | &percnt;
                         br
-                        span#cpu-15min.value
+                        span#cpu-15min.value #{loadavg15}
                       // .stat
                   // /widget-content
                 // /widget

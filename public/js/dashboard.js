@@ -136,7 +136,7 @@ dashboard.getPs = function () {
             psTable.fnFilter(this.value);
         });
     }, "json");
-}
+};
 
 dashboard.getNetStat = function () {
     $.get("sh/netstat.php", function (data) {
@@ -159,7 +159,7 @@ dashboard.getNetStat = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 
 dashboard.getUsers = function () {
@@ -185,7 +185,7 @@ dashboard.getUsers = function () {
         }).fadeIn();
     }, "json");
     $("select[name='users_dashboard_length']").val("5");
-}
+};
 
 dashboard.getOnline = function () {
     $.get("sh/online.php", function (data) {
@@ -211,10 +211,10 @@ dashboard.getOnline = function () {
         }).fadeIn();
     }, "json");
     $("select[name='online_dashboard_length']").val("5");
-}
+};
 
 dashboard.getRam = function () {
-    $.get("sh/mem.php", function (data) {
+    $.get("/mem", function (data) {
         var ram_total = data[1];
         var ram_used = Math.round((data[2] / ram_total) * 100);
         var ram_free = Math.round((data[3] / ram_total) * 100);
@@ -226,10 +226,10 @@ dashboard.getRam = function () {
         $("#ram-free-per").text(ram_free);
         $("#ram-used-per").text(ram_used);
     }, "json");
-}
+};
 
 dashboard.getDf = function () {
-    $.get("sh/df.php", function (data) {
+    $.get("/df", function (data) {
         var table = $("#df_dashboard");
         var ex = document.getElementById("df_dashboard");
         if ($.fn.DataTable.fnIsDataTable(ex)) {
@@ -253,7 +253,7 @@ dashboard.getDf = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 dashboard.getWhereIs = function () {
     $.get("sh/where.php", function (data) {
@@ -280,23 +280,26 @@ dashboard.getWhereIs = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 dashboard.getOs = function () {
-    generate_os_data("sh/issue.php", "#os-info");
-    generate_os_data("sh/hostname.php", "#os-hostname");
-    generate_os_data("sh/time.php", "#os-time");
-    generate_os_data("sh/uptime.php", "#os-uptime");
-}
+    $.get("/osinfo", function (data) {
+        $("#os-info").text(data[0]);
+        $("#os-hostname").text(data[1]);
+        $("#os-time").text(data[2]);
+        $("#os-uptime").text(data[3]);
+    }, "json");
+};
 
 dashboard.getIp = function () {
-    $.get("sh/ip.php", function (data) {
+    $.get("/ip", function (data) {
         destroy_dataTable("ip_dashboard");
         $("#ip_dashboard").dataTable({
             aaData: data,
             aoColumns: [
                 { sTitle: "Interface" },
-                { sTitle: "IP" }
+                { sTitle: "IP" },
+                { sTitle: "Type" }
             ],
             iDisplayLength: 5,
             bPaginate: true,
@@ -306,7 +309,7 @@ dashboard.getIp = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 dashboard.getPing = function () {
     $.get("sh/ping.php", function (data) {
@@ -329,7 +332,7 @@ dashboard.getPing = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 dashboard.getIspeed = function () {
     var rate = $("#ispeed-rate");
@@ -351,19 +354,20 @@ dashboard.getIspeed = function () {
     // update unit value in widget
     var lead = rate.next(".lead");
     lead.text(AS ? "MB/s" : "KB/s");
-}
+};
 
 dashboard.getLoadAverage = function () {
-    $.get("sh/loadavg.php", function (data) {
+    $.get("/loadavg", function (data) {
         $("#cpu-1min").text(data[0][0]);
         $("#cpu-5min").text(data[1][0]);
         $("#cpu-15min").text(data[2][0]);
         $("#cpu-1min-per").text(data[0][1]);
         $("#cpu-5min-per").text(data[1][1]);
         $("#cpu-15min-per").text(data[2][1]);
+        $("#core-number").text(data[3]);
     }, "json");
-    generate_os_data("sh/numberofcores.php", "#core-number");
-}
+    //generate_os_data("/numberofcores", "#core-number");
+};
 
 dashboard.getDnsmasqLeases = function () {
     $.get("sh/dnsmasq-leases.php", function (data) {
@@ -388,7 +392,7 @@ dashboard.getDnsmasqLeases = function () {
             bInfo: false
         }).fadeIn();
     }, "json");
-}
+};
 
 dashboard.getBandwidth = function () {
     $.get("sh/bandwidth.php", function (data) {
@@ -396,7 +400,7 @@ dashboard.getBandwidth = function () {
         $('#bw-rx').text(data.rx);
     }, 'json');
 
-}
+};
 
 
 /**
@@ -408,7 +412,7 @@ dashboard.getAll = function () {
             dashboard.fnMap[item]();
         }
     }
-}
+};
 
 dashboard.fnMap = {
     all: dashboard.getAll,
