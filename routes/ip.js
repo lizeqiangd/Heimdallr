@@ -15,7 +15,7 @@ for (var x in net){
             iptem['interface'] = interfc;
             iptem[att] = item[att];
         }
-        data.push([iptem['interface'],iptem['address'],iptem['family']]);
+        data.push([iptem['interface'],iptem['address']]);
     }
 }
 

@@ -299,7 +299,6 @@ dashboard.getIp = function () {
             aoColumns: [
                 { sTitle: "Interface" },
                 { sTitle: "IP" },
-                { sTitle: "Type" }
             ],
             iDisplayLength: 5,
             bPaginate: true,
