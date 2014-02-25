@@ -1,0 +1,396 @@
+doctype html
+html(lang='en')
+  head
+    title linux-dash &colon; Server Monitoring Web Dashboard
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+    meta(name='description', content='Monitor your Linux server through a simple web dashboard. Open source and free!')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
+    link(rel='icon', href='favicon.ico', type='image/x-icon')
+    link(href='css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='css/bootstrap-responsive.min.css', rel='stylesheet', type='text/css')
+    link(href='css/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    link(href='css/style.css', rel='stylesheet', type='text/css')
+    link(href='css/pages/dashboard.css', rel='stylesheet', type='text/css')
+    link(href='css/odometer.css', rel='stylesheet', type='text/css')
+    // Le HTML5 shim, for IE6-8 support of HTML5 elements
+    //if lt IE 9
+      script(src='https://html5shim.googlecode.com/svn/trunk/html5.js')
+  body
+    .navbar.navbar-fixed-top(style='')
+      .navbar-inner
+        .container
+          a.brand(href='./') linux-dash
+          .nav-collapse
+          ul.nav.pull-right
+            li
+              a(target='_blank', href='http://github.com/afaqurk/linux-dash')
+                i.lead.icon-github-sign
+                span.lead Contribute on GitHub
+    .subnavbar.visible-desktop.visible-tablet
+      .subnavbar-inner
+        .container
+          ul.mainnav
+            li
+              a.js-smoothscroll(href='#refresh-os')
+                i.icon-dashboard
+                span General
+            li
+              a.js-smoothscroll(href='#refresh-df')
+                i.icon-list-alt
+                span Disk
+            li
+              a.js-smoothscroll(href='#refresh-ps')
+                i.icon-list-alt
+                span CPU
+            li
+              a.js-smoothscroll(href='#refresh-ram')
+                i.icon-list-alt
+                span RAM
+            li
+              a.js-smoothscroll(href='#refresh-users')
+                i.icon-group
+                span Users
+            li
+              a.js-smoothscroll(href='#refresh-ispeed')
+                i.icon-exchange
+                span Network
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                i#closed-widget-count 0
+                span
+                  | Closed Widgets
+                  i.icon-caret-down
+              ul#closed-widget-list.dropdown-menu
+                li#close-all-widgets
+                  a
+                    i.icon-remove.lead.pull-left
+                    | Close All Widgets
+                li#open-all-widgets
+                  a
+                    i.icon-plus.lead.pull-left
+                    | Open All Widgets
+                li
+                  hr
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                i#phpinfo-widget-what.icon-info-sign
+                span
+                  | PHPInfo
+                  i.icon-caret-down
+              ul#phpinfo-widget-opt.dropdown-menu
+                li
+                  a(href='sh/phpinfo.php?what=-1', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;ALL
+                li
+                  a(href='sh/phpinfo.php?what=1', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;GENERAL
+                li
+                  a(href='sh/phpinfo.php?what=4', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;CONFIGURATION
+                li
+                  a(href='sh/phpinfo.php?what=8', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;MODULES
+                li
+                  a(href='sh/phpinfo.php?what=16', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;ENVIRONMENT
+                li
+                  a(href='sh/phpinfo.php?what=32', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;VARIABLES
+                li
+                  a(href='sh/phpinfo.php?what=2', target='_blank')
+                    i.icon-info
+                    | - INFO&UnderBar;CREDITS
+        // /container
+      // /subnavbar-inner
+    // /subnavbar
+    .main
+      .main-inner
+        .container
+          .lead(style='text-align: center;')
+            #refresh-all.btn.icon-refresh.js-refresh-info(data-title='Refresh all widgets!', data-toggle='tooltip')
+            div
+              | A simple web dashboard to monitor your server&period;
+          #widgets
+            .row
+              .span3
+                #general-info-widget.widget.widget-table.action-table
+                  .widget-header
+                    i.icon-info-sign
+                    h3
+                      | General Info
+                    #refresh-os.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    br
+                    div(style='text-align:center;')
+                      b OS&colon;
+                      span#os-info
+                      br
+                      b Uptime&colon;
+                      span#os-uptime
+                      br
+                      b Server Time&colon;
+                      span#os-time
+                      br
+                      b Hostname&colon;
+                      span#os-hostname
+                      br
+                      br
+                      br
+                  // /widget-content
+                // /widget
+              .span4
+                #load-average-widget.widget
+                  .widget-header
+                    i.icon-laptop
+                    h3
+                      | Load average
+                    #refresh-cpu.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    div(style='text-align:center;')
+                      b Number of cores&colon;
+                      span#core-number.lead 0
+                    .cf.big_stats
+                      .stat
+                        i.icon-# 1 min&NonBreakingSpace;
+                        span#cpu-1min-per.value.odometer
+                        | &percnt;
+                        br
+                        span#cpu-1min.value
+                      // .stat
+                      .stat
+                        i.icon-# 5 min&NonBreakingSpace;
+                        span#cpu-5min-per.value.odometer
+                        | &percnt;
+                        br
+                        span#cpu-5min.value
+                      // .stat
+                      .stat
+                        i.icon-# 15 min&NonBreakingSpace;
+                        span#cpu-15min-per.value.odometer
+                        | &percnt;
+                        br
+                        span#cpu-15min.value
+                      // .stat
+                  // /widget-content
+                // /widget
+              .span5
+                #ram-widget.widget.widget-nopad
+                  .widget-header
+                    i.icon-list-alt
+                    h3
+                      | RAM
+                    #refresh-ram.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    .big-stats-container
+                      .widget-content
+                        .cf.big_stats
+                          .stat
+                            i.icon-# Total&NonBreakingSpace;
+                            span#ram-total.value.odometer
+                            | MB
+                          // .stat
+                          .stat
+                            i.icon-# Used&NonBreakingSpace;
+                            span#ram-used.value.odometer
+                            | MB
+                            br
+                            span#ram-used-per.value.odometer
+                            | &percnt;
+                          // .stat
+                          .stat
+                            i.icon-# Free&NonBreakingSpace;
+                            span#ram-free.value.odometer
+                            | MB
+                            br
+                            span#ram-free-per.value.odometer
+                            | &percnt;
+                          // .stat
+                      // /widget-content
+            // ./row
+            .row
+              .span6
+                #disk-usage-widget.widget.widget-table
+                  .widget-header
+                    i.icon-list
+                    h3
+                      | Disk Usage
+                    #refresh-df.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#df_dashboard.table.table-hover.table-condensed.table-bordered
+                  // /widget-content
+                // /widget
+              .span6
+                #software-widget.widget.widget-table
+                  .widget-header
+                    i.icon-list
+                    h3
+                      | Software
+                    #refresh-whereis.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#whereis_dashboard.table.table-hover.table-condensed.table-bordered
+                  // /widget-content
+                // /widget
+              // /span
+            // ./row
+            .row
+              .span6
+                #dns-lease-widget.widget.widget-table
+                  .widget-header
+                    i.icon-list
+                    h3
+                      | DNS Leases
+                    #refresh-dnsmasqleases.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#dnsmasqleases_dashboard.table.table-hover.table-condensed.table-bordered
+                  // /widget-content
+                // /widget
+              // /span6
+              .span3
+                #ip-widget.widget.widget-table
+                  .widget-header
+                    i.icon-monitor
+                    h3
+                      | IP
+                    #refresh-ip.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#ip_dashboard.table.table-hover.table-condensed.table-bordered
+                  // /widget-content
+                // /widget
+              // /span
+              .span3
+                #internet-speed-widget.widget.widget-table
+                  .widget-header
+                    i.icon-monitor
+                    h3
+                      | Internet Speed
+                    #refresh-ispeed.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    div(style='padding:10px; text-align: center;')
+                      span#ispeed-rate.lead.value.odometer(style='margin-top:11px;') 0
+                      span.lead Mbps
+                  // /widget-content
+                // /widget
+              // /span
+            // ./row
+            .row
+              .span4
+                #netstat-widget.widget.widget-table
+                  .widget-header
+                    i.icon-dashboard
+                    h3
+                      | Network Statistics
+                    #refresh-netstat.btn.icon-refresh.js-refresh-info
+                  .widget-content
+                    table#netstat_dashboard.table.table-hover.table-condensed.table-bordered
+              .span4
+                #ping-widget.widget.widget-table
+                  .widget-header
+                    i.icon-exchange
+                    h3
+                      | Ping
+                    #refresh-ping.btn.icon-refresh.js-refresh-info
+                  .widget-content
+                    table#ping_dashboard.table.table-hover.table-condensed.table-bordered
+              .span4
+                #bandwidth-widget.widget.widget-table
+                  .widget-header
+                    i.icon-exchange
+                    h3
+                      | Bandwidth
+                    #refresh-bandwidth.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    div(style='padding:10px;text-align:center;')
+                      | RX&colon;
+                      span#bw-rx.lead.odometer(style='margin-top:11px;') 0
+                      | &VerticalLine;&NonBreakingSpace;&NonBreakingSpace; TX&colon;
+                      span#bw-tx.lead.odometer(style='margin-top:11px;')
+                  // /widget-content
+                // /widget
+              // /span
+            // ./row
+            .row
+              .span6
+                #users-widget.widget.widget-table.action-table
+                  .widget-header
+                    i.icon-group
+                    h3
+                      | Users
+                    #refresh-users.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#users_dashboard.table.table-hover.table-bordered.table-condensed
+                  // /widget-content
+                // /widget
+              // /span6
+              .span6
+                #online-widget.widget.widget-table.action-table
+                  .widget-header
+                    i.icon-group
+                    h3
+                      | Online
+                    #refresh-online.btn.icon-refresh.js-refresh-info
+                  // /widget-header
+                  .widget-content
+                    table#online_dashboard.table.table-hover.table-bordered.table-condensed
+                  // /widget-content
+                // /widget
+              // /span6
+            // ./row
+            .row
+              .span12
+                #process-widget.widget.widget-table
+                  .widget-header
+                    i.icon-dashboard
+                    h3
+                      | Processes
+                    #refresh-ps.btn.icon-refresh.js-refresh-info
+                    .pull-right
+                      input#filter-ps.widget-search(type='text', placeholder='search...')
+                  // /widget-header
+                  .widget-content
+                    table#ps_dashboard.table.table-hover.table-condensed.table-bordered
+                  // /widget-content
+                // /widget
+              // /span
+            // ./row
+          // #/widgets
+      // /main-inner
+    // /main
+    .footer
+      .footer-inner
+        .container
+          .row
+            .span12
+              | Original Author&colon;
+              a(href='http://github.com/afaqurk') Afaq Tariq
+              | &period;
+            // /span12
+          // /row
+        // /container
+      // /footer-inner
+    // /footer
+    // Javascript
+    // Placed at the end of the document so the pages load faster
+    script(src='js/jquery.js', type='text/javascript')
+    script(src='js/jquery-ui.min.js', type='text/javascript')
+    script(src='js/bootstrap.js', type='text/javascript')
+    script(src='js/jquery.dataTables.min.js', type='text/javascript')
+    script(src='js/odometer.js', type='text/javascript')
+    script(src='js/dashboard.js', type='text/javascript')
+    script(src='js/base.js', type='text/javascript')
