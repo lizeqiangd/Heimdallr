@@ -14,6 +14,7 @@ var ip = require('./routes/ip');
 var df = require('./routes/df');
 var ps = require('./routes/ps');
 var online = require('./routes/online');
+var bandwidth = require('./routes/bandwidth');
 var http = require('http');
 var path = require('path');
 
@@ -46,6 +47,7 @@ app.get('/ip', ip.main);
 app.get('/df', df.main);
 app.get('/ps', ps.main);
 app.get('/online', online.main);
+app.get('/bandwidth', bandwidth.main);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
