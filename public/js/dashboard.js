@@ -395,8 +395,8 @@ dashboard.getDnsmasqLeases = function () {
 
 dashboard.getBandwidth = function () {
     $.get("/bandwidth", function (data) {
-        $('#bw-tx').text(data.tx);
-        $('#bw-rx').text(data.rx);
+        $('#bw-tx').text(data[1]);
+        $('#bw-rx').text(data[0]);
     }, 'json');
 
 };

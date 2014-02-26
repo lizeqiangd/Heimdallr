@@ -8,6 +8,8 @@ var data = [];
 
 var exec = require('child_process').exec;
 var order = 'netstat -n -i | awk \'{if ($1 > 0 && $4 > 0) print $1","$4","$8}\' | grep -i -v name | uniq';
+var RX = 0,
+    TX = 0;
 
 exec(order,
     function (error, stdout, stderr) {
@@ -15,8 +17,10 @@ exec(order,
         for (var i = item.length - 2; i >= 1; i--) {
             var ps = item[i].split(',');
             console.log(ps);
-            data.push(ps);
+            RX += ps[1];
+            TX += ps[2];
         }
+        data = [RX, TX];
         console.log('stderr: ' + stderr);
         if (error !== null) {
             console.log('exec error: ' + error);
