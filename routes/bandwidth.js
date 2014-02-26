@@ -16,9 +16,8 @@ exec(order,
         var item = stdout.toString().split('\n');
         for (var i = item.length - 2; i >= 1; i--) {
             var ps = item[i].split(',');
-            console.log(ps);
-            RX += ps[1];
-            TX += ps[2];
+            RX += parseInt(ps[1]);
+            TX += parseInt(ps[2]);
         }
         data = [RX, TX];
         console.log('stderr: ' + stderr);
