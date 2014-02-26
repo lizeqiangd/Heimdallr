@@ -105,7 +105,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 var dashboard = {};
 
 dashboard.getPs = function () {
-    $.get("sh/ps.php", function (data) {
+    $.get("/ps", function (data) {
         destroy_dataTable("ps_dashboard");
         $("#filter-ps").val("").off("keyup");
 
@@ -163,7 +163,7 @@ dashboard.getNetStat = function () {
 
 
 dashboard.getUsers = function () {
-    $.get("sh/users.php", function (data) {
+    $.get("/users", function (data) {
         destroy_dataTable("users_dashboard");
 
         $("#users_dashboard").dataTable({
@@ -188,7 +188,7 @@ dashboard.getUsers = function () {
 };
 
 dashboard.getOnline = function () {
-    $.get("sh/online.php", function (data) {
+    $.get("/online", function (data) {
         destroy_dataTable("online_dashboard");
 
         $("#online_dashboard").dataTable({

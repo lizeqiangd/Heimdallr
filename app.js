@@ -12,6 +12,8 @@ var loadavg = require('./routes/loadavg');
 var osinfo = require('./routes/osinfo');
 var ip = require('./routes/ip');
 var df = require('./routes/df');
+var ps = require('./routes/ps');
+var online = require('./routes/online');
 var http = require('http');
 var path = require('path');
 
@@ -35,13 +37,15 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/users', user.main);
 app.get('/mem', mem.main);
 app.get('/numofcore', numofcore.main);
 app.get('/loadavg', loadavg.main);
 app.get('/osinfo', osinfo.main);
 app.get('/ip', ip.main);
 app.get('/df', df.main);
+app.get('/ps', ps.main);
+app.get('/online', online.main);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -1,13 +1,13 @@
-// /bin/ps aux | /usr/bin/awk '{print $1","$2","$3","$4","$5","$6","$7","$8","$9","$10","$11}'
+// PROCPS_FROMLEN=40 /usr/bin/w -h | /usr/bin/awk '{print $1","$3","$4","$5}'
 
 /*
- * GET process page.
+ * GET online page.
  */
 var os = require('os');
 var data = [];
 
 var exec = require('child_process').exec;
-var order = '/bin/ps aux | /usr/bin/awk \'{print $1","$2","$3","$4","$5","$6","$7","$8","$9","$10","$11}\'';
+var order = 'PROCPS_FROMLEN=40 /usr/bin/w -h | /usr/bin/awk \'{print $1","$3","$4","$5}\'';
 
 exec(order,
     function (error, stdout, stderr) {
