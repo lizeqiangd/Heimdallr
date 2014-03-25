@@ -1,4 +1,4 @@
-# Heimdallr (Beta)
+# Heimdallr (Beta)转移至[Bitbucket](https://bitbucket.org/darren9234/heimdallr)
 
 Heimdallr is attested as possessing foreknowledge, keen eyesight and hearing, and keeps watch for Ragnarök.
 
