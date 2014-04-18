@@ -311,7 +311,7 @@ dashboard.getIp = function () {
 };
 
 dashboard.getPing = function () {
-    $.get("sh/ping.php", function (data) {
+    $.get("/ping", function (data) {
         destroy_dataTable("ping_dashboard");
 
         $("#ping_dashboard").dataTable({
@@ -369,7 +369,7 @@ dashboard.getLoadAverage = function () {
 };
 
 dashboard.getDnsmasqLeases = function () {
-    $.get("sh/dnsmasq-leases.php", function (data) {
+    $.get("/dns", function (data) {
         var table = $("#dnsmasqleases_dashboard");
         var ex = document.getElementById("dnsmasqleases_dashboard");
         if ($.fn.DataTable.fnIsDataTable(ex)) {
