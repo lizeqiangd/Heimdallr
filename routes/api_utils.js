@@ -2,7 +2,6 @@
  * This is a class of ZweiteHorizont Server.
  * SystemManager
  */
-    
 var self = {
     //主要运行程序
     main: function () {
@@ -57,5 +56,4 @@ var self = {
     },
     end: 0
 }
-
 module.exports = self
