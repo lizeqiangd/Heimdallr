@@ -10,8 +10,8 @@ exports.main = function(req, res){
     exec('/bin/df |awk \'{print $1","$2","$3","$4","$5","$6}\'',
         function (error, stdout, stderr) {
             if (error !== null) {
-                res.send(rmsg(1,error,'df操作失败.'));
-                return 
+                res.send(rmsg(1,[error,stderr],'df操作失败.'));
+                return
             }
             var data=[];
             var item = stdout.toString().split('\n');
@@ -27,7 +27,7 @@ exports.main = function(req, res){
                 disk_data[title[5]]=disk[5];
                 data.push(disk_data);
             }            
-            res.send(rmsg(0,data,'diskfile 获取数据完成'));
+            res.send(rmsg(0,data,'ok.'));
         }
     );  
 };

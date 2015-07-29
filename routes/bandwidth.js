@@ -14,7 +14,7 @@ exports.main = function(req, res){
     exec(order,
         function (error, stdout, stderr) {
             if (error !== null) {
-                res.send(rmsg(1,error,'df操作失败.'));
+                res.send(rmsg(1,[error,stderr],'df操作失败.'));
                 return
             }
             var item = stdout.toString().split('\n');
@@ -30,7 +30,7 @@ exports.main = function(req, res){
             data['delta_TX']=delta_TX;
             data['TX']=TX;
             data['RX']=RX;
-            res.send(rmsg(0,data,'bandwidth 数据获取成功'));
+            res.send(rmsg(0,data,'ok.'));
         }
     );
 
