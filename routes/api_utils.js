@@ -2,20 +2,12 @@
  * This is a class of ZweiteHorizont Server.
  * SystemManager
  */
+var os = require('os');
+var crypto = require('crypto');
 var self = {
-    //主要运行程序
-    main: function () {
-        self.server_start_time = new Date().getTime() / 1000;
-    },
-    //系统开始时间,ms
-    server_start_time: 0,
-    //系统已经运行了的时间,ms
-    server_already_running_time: function () {
-        return new Date().getTime() / 1000 - self.server_start_time;
-    },
-    //获取系统当前时间,'yyyy-MM-dd hh:mm:ss'
-    get_server_time: function () {
-        if (!Date.hasOwnProperty('format')) {
+    //获取时间戳格式
+    get_formated_time: function (format_str) {
+        if (!Date.prototype.format) {
             Date.prototype.format = function (fmt) { //author: meizz
                 var o = {
                     "M+": this.getMonth() + 1, //月份
@@ -32,9 +24,29 @@ var self = {
                 return fmt;
             }
         }
-        return new Date().format('yyyy-MM-dd hh:mm:ss');
+        if(format_str==''||format_str==null){
+            format_str='yyyy-MM-dd hh:mm:ss';
+        }
+        var r = new Date().format(format_str) + "";
+        return r;
     },
-
+    //MD5验证.
+    md5: function (str) {
+        var md5sum = crypto.createHash('md5');
+        md5sum.update(str);
+        str = md5sum.digest('hex');
+        return str;
+    },
+    sha1: function (str) {
+        var md5sum = crypto.createHash('sha1');
+        md5sum.update(str);
+        str = md5sum.digest('hex');
+        return str;
+    },
+    //获取系统当前时间,'yyyy-MM-dd hh:mm:ss'
+    get_server_time: function () {
+        return self.get_formated_time('yyyy-MM-dd hh:mm:ss');
+    },
     //返回用户数据
     get_return_object: function (code, data, msg) {
         var return_object = {};
@@ -47,12 +59,17 @@ var self = {
     },
     get_unique_id: function () {
         var code = this.get_server_time() + Math.random();
-        var sha = require('crypto').createHash('sha1').update(code, 'utf8');
-        return sha.digest('hex');
+        var return_id =self.sha1(code);
+        return return_id;
     },
     check_access_key_vaild: function (key) {
-        return true;
+        var md5_hostname = self.md5(os.hostname());
+        var now_date=self.md5(self.get_formated_time('yyyy-MM-dd hh:mm'));
+        var salt_key=self.md5('Lizeqiangd');
+        var final_key=self.sha1(md5_hostname+'&'+now_date+'&'+salt_key);
+        return md5_hostname+now_date+salt_key;
+        return final_key==key;
     },
-    end: 0
+    EOF: 0
 }
 module.exports = self
