@@ -67,7 +67,7 @@ var self = {
         var now_date=self.md5(self.get_formated_time('yyyy-MM-dd hh:mm'));
         var salt_key=self.md5('Lizeqiangd');
         var final_key=self.sha1(md5_hostname+'&'+now_date+'&'+salt_key);
-        return md5_hostname+now_date+salt_key;
+        return final_key;
         return final_key==key;
     },
     EOF: 0
