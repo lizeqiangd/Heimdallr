@@ -1,5 +1,15 @@
-# Heimdallr (Beta)
-a
+# Heimdallr 
+An completed Nodejs-base Server Monitor Application ,power by Express.js.
+
+完全的api模式调用访问系统状态.支持管理员模式访问高级信息.
+
+我建议使用php再代理一层nodejs的全部内容.这样可以方便操作memcache等.
+
+
+
+
+
+barabara....
 
 Heimdallr is attested as possessing foreknowledge, keen eyesight and hearing, and keeps watch for Ragnarök.
 
